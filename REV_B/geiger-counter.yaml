@@ -63,18 +63,22 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
+    # Go here to generate a new API encryption key: https://esphome.io/components/api.html
     key: "lORY1FGGngyyVsuXNoEmg+ubheP6hLtkb6sr6t87ylI="
 
 ota:
   - platform: esphome
-    password: "0ceb7c3856c00cd3a1145b339b49e3c9"
+    password: "123456"
+    # Use:
+    #password: !secret ota_password
+    # or hardcoded ota password for production
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "Geiger-Counter FB HS"
+    ssid: "Geiger-Counter"
     password: "123456"
 
 web_server:
