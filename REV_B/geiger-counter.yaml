@@ -79,7 +79,7 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Geiger-Counter"
-    password: "123456"
+    password: "123456789"
 
 web_server:
   port: 80
