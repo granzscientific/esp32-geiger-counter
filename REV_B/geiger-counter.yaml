@@ -22,10 +22,10 @@ esphome:
       - output.turn_on: boostctrl
       - output.ledc.set_frequency:
           id: boostctrl
-          frequency: "4900Hz"
+          frequency: "490Hz"
       - output.set_level:
           id: boostctrl
-          level: "50%" #"50%"
+          level: "10%" #"50%"
       - rtttl.play: 'siren:d=8,o=5,b=100:d,e,d,e,d,e,d,e'
 
 i2c:
