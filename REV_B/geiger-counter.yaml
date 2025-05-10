@@ -31,7 +31,6 @@ esphome:
 i2c:
   sda: GPIO2
   scl: GPIO1
-  #scan: True
 
 # Configure the PWM outputs to drive the boost converter and the buzzer
 # Note: We must specify channel to use for each output to avoid the buzzer out changing the boost converter frequency
@@ -68,7 +67,7 @@ api:
 
 ota:
   - platform: esphome
-    password: "123456"
+    password: "12345678"
     # Use:
     #password: !secret ota_password
     # or hardcoded ota password for production
@@ -79,7 +78,7 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Geiger-Counter"
-    password: "123456789"
+    password: "12345678"
 
 web_server:
   port: 80
