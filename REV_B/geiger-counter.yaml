@@ -25,7 +25,7 @@ esphome:
           frequency: "490Hz"
       - output.set_level:
           id: boostctrl
-          level: "10%" #"50%"
+          level: "10%"
       - rtttl.play: 'siren:d=8,o=5,b=100:d,e,d,e,d,e,d,e'
 
 i2c:
@@ -98,6 +98,7 @@ light:
     id: indicator_light
 
 sensor:
+  # BME680 air quality sensor
   - platform: bme680
     temperature:
       name: "BME680 Temperature"
@@ -105,11 +106,21 @@ sensor:
     pressure:
       name: "BME680 Pressure"
     humidity:
+      id: "humidity"
       name: "BME680 Humidity"
     gas_resistance:
+      id: "gas_resistance"
       name: "BME680 Gas Resistance"
     address: 0x76
     update_interval: 5s
+  - platform: template
+    name: "BME680 Indoor Air Quality"
+    id: iaq
+    icon: "mdi:gauge"
+    # calculation: comp_gas = log(R_gas[ohm]) + 0.04 log(Ohm)/%rh * hum[%rh]
+    lambda: |-
+      return log(id(gas_resistance).state) + 0.04 * id(humidity).state;
+    state_class: "measurement"
   # Count pulses from GM tube
   - platform: pulse_counter
     pin:
@@ -214,3 +225,33 @@ sensor:
       # If dose_meter in CPM: (0.0057 / 60 minutes) = 0.000095; so CPM * 0.000095 = dose every next minute, uSv
       - multiply: 0.0166666667
 
+# Air quality text description
+text_sensor:
+  - platform: template
+    name: "BME680 IAQ Classification"
+    icon: "mdi:checkbox-marked-circle-outline"
+    lambda: |-
+      if (int(id(iaq).state) <= 50) {
+        return {"Excellent"};
+      }
+      else if (int(id(iaq).state) <= 100) {
+        return {"Good"};
+      }
+      else if (int(id(iaq).state) <= 150) {
+        return {"Lightly polluted"};
+      }
+      else if (int(id(iaq).state) <= 200) {
+        return {"Moderately polluted"};
+      }
+      else if (int(id(iaq).state) <= 250) {
+        return {"Heavily polluted"};
+      }
+      else if (int(id(iaq).state) <= 350) {
+        return {"Severely polluted"};
+      }
+      else if (int(id(iaq).state) <= 500) {
+        return {"Extremely polluted"};
+      }
+      else {
+        return {"unknown"};
+      }
